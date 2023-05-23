@@ -7,4 +7,4 @@ Các thông số trong tool:
     - timer: Thời gian cập nhập holders (đơn vị giây)
 
 Hướng dẫn sử dụng chi tiết:
-    https://youtu.be/8-UNqn8Eknc
+    https://bscscan.com/address/0xcc47586c5a0ff7853be05d72b7a05357c1648855

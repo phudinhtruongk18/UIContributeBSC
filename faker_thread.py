@@ -18,16 +18,16 @@ desired_cap = {
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
 options.add_argument("window-size=950,900")
-options.add_argument('headless')
+# options.add_argument('headless')
 
-url_father = "https://bscscan.com/token/"
+url_father = "https://bscscan.com/address/"
 
 class TheOne(Thread):
     def __init__(self, address,ui,timer):
         super().__init__()
         self.timer = timer  
         self.link = url_father + address
-        self.ui = ui
+        # self.ui = ui
 
         self.google = webdriver.Chrome(options=options, executable_path="./DATA/chromedriver.exe")
         self.google.set_page_load_timeout(40)
@@ -48,10 +48,10 @@ class TheOne(Thread):
             holders, name =  self.get_holders()
             x = datetime.now()
             date = x.strftime("%Hh%M")
-            self.ui.update_ui(holders, name, date)
-            print(holders)
-            print(name)
-            print(date)
+            # self.ui.update_ui(holders, name, date)
+            print("holders",holders)
+            print("name", name)
+            print("date", date)
             print("======================")
             for _ in range(self.timer):
                 if self.is_alive_mine:
@@ -59,7 +59,7 @@ class TheOne(Thread):
                 else:
                     break
         self.close_google()
-        self.ui.stop_scaner()
+        # self.ui.stop_scaner()
 
     def get_holders(self):
         try:
@@ -97,13 +97,17 @@ if __name__ == '__main__':
     # address = ["0xf0a8ecbce8caadb7a07d1fcd0f87ae1bd688df43","0x8c5921a9563e6d5dda95cb46b572bb1cc9b04a27",
     # "0xf66a8a197d5cb0e2799d79be115208899332a0ba","0xa0c8c80ed6b7f09f885e826386440b2349f0da7e",
     # "0xb9b280f4277b49d59ac15283b6ae00a90aac5415","0x9d52414c4cc1fb8e7864a9b59495f430f8e5de44"]
-    address = ["0xf0a8ecbce8caadb7a07d1fcd0f87ae1bd688df43"]
-    list_thread = []
-    for temp in address:
-        thread = TheOne(temp)
-        list_thread.append(thread)
-        thread.start()
 
-    for temp in list_thread:
-        thread.join()
+    # address = ["0xf0a8ecbce8caadb7a07d1fcd0f87ae1bd688df43"]
+    # list_thread = []
+    # for temp in address:
+    #     thread = TheOne(temp)
+    #     list_thread.append(thread)
+    #     thread.start()
 
+    # for temp in list_thread:
+    #     thread.join()
+
+    address = "0x645853e0DF3E59cA3611473f279014147AfF59dd"
+    thread = TheOne(address,None,2)
+    thread.run()
