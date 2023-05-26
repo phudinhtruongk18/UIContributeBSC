@@ -36,7 +36,7 @@ class Application(jra.Frame):
         # jra.Label().pack()
 
         self.hi_there = jra.Button(self)
-        self.hi_there["text"] = "Bắt đầu chạy chương trình"
+        self.hi_there["text"] = "Phân tích dữ liệu"
         self.hi_there["command"] = self.PressCheck
         self.hi_there.pack()
 
