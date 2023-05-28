@@ -15,14 +15,16 @@ def extract_data(filename):
     filtered_df = filtered_df.reset_index(drop=True)
     # Create the "extracted" DataFrame
     extracted = filtered_df.groupby("From").agg(
-        count=("Value_IN(BNB)", "count"),
-        sum=("Value_IN(BNB)", "sum")
+        sum=("Value_IN(BNB)", "sum"),
+        SL=("Value_IN(BNB)", "count")
         ).reset_index()
     extracted["url"] = extracted["From"].apply(lambda x: f"https://bscscan.com/address/{x}")
     extracted = extracted.sort_values(by="sum")
 
     # Split into two DataFrames based on condition
+    # and bigger or equal to 0.1
     df_sum_lt_1 = extracted[extracted['sum'] < 1]
+    df_sum_lt_1 = df_sum_lt_1[df_sum_lt_1['sum'] >= 0.1]
     df_sum_gte_1 = extracted[extracted['sum'] >= 1]
 
     # Calculate sum for each DataFrame
@@ -44,10 +46,14 @@ def extract_data(filename):
     big_sums_df = pd.DataFrame({'DataFrame': ['Nho hon 1', 'Lon hon 1'], 'BigSum': [big_sum_df1, big_sum_df2]})
 
     # Write the dataframes to the Excel file
-    df_sum_lt_1.to_excel(writer, sheet_name='Combined', index=False, startrow=0, startcol=0)
-    df_sum_gte_1.to_excel(writer, sheet_name='Combined', index=False, startrow=len(df_sum_lt_1) + 2, startcol=0)
-    big_sums_df.to_excel(writer, sheet_name='Combined', index=False, startrow=len(df_sum_lt_1) + len(df_sum_gte_1) + 4, startcol=0)
+    # big_sums_df.to_excel(writer, sheet_name='Combined', index=False, startrow=len(df_sum_lt_1) + len(df_sum_gte_1) + 4, startcol=0)
+    # df_sum_gte_1.to_excel(writer, sheet_name='Combined', index=False, startrow=len(df_sum_lt_1) + 2, startcol=0)
+    # df_sum_lt_1.to_excel(writer, sheet_name='Combined', index=False, startrow=0, startcol=0)
 
+    big_sums_df.to_excel(writer, sheet_name='Combined', index=False, startrow=0, startcol=0)
+    df_sum_gte_1.to_excel(writer, sheet_name='Combined', index=False, startrow=len(big_sums_df) + 2, startcol=0)
+    df_sum_lt_1.to_excel(writer, sheet_name='Combined', index=False, startrow=len(big_sums_df) + len(df_sum_gte_1) + 4, startcol=0)
+    
     # Save the Excel file
     writer.close()
     # writer.save()
