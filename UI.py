@@ -4,7 +4,7 @@ from PIL import ImageTk, Image
 from tkinter import messagebox
 import os
 from tkinter.filedialog import askopenfilename, askdirectory
-from job import extract_data
+from job import extract_data, delete_data
 
 # logo = "./DATA/img/logo.ico"
 img_render = './DATA/img/img.png'
@@ -44,6 +44,13 @@ class Application(jra.Frame):
         self.openThuMuc["text"] = "Mở thư mục"
         self.openThuMuc["command"] = openThuMuc
         self.openThuMuc.pack()
+
+        self.delete_btn = jra.Button(self)
+        self.delete_btn["text"] = "Xóa file"
+        self.delete_btn["command"] = delete_data
+        # color = red
+        self.delete_btn["fg"] = "red"
+        self.delete_btn.pack()
 
         self.pack()
 
